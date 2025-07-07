@@ -85,14 +85,6 @@
       margin-top: 20px;
     }
 
-    .pdf-link {
-      margin-top: 20px;
-      font-size: 16px;
-      font-weight: bold;
-      color: green;
-      word-break: break-word;
-    }
-
     .not-found {
       color: red;
       font-weight: bold;
@@ -185,10 +177,10 @@
         return;
       }
 
-      fetch(`${GAS_URL}?action=login`, {
+      fetch(GAS_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, pass })
+        body: JSON.stringify({ action: "login", email, pass })
       })
       .then(res => res.json())
       .then(data => {
@@ -214,7 +206,11 @@
       document.getElementById("studentDetails").innerHTML = "";
       document.getElementById("statusMessage").innerText = "";
 
-      fetch(`${GAS_URL}?action=fetch&roll=${encodeURIComponent(roll)}`)
+      fetch(GAS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "fetch", roll })
+      })
         .then(res => res.json())
         .then(data => {
           document.getElementById("loading").style.display = "none";
@@ -254,10 +250,10 @@
       statusMessage.style.color = "blue";
       statusMessage.textContent = "Processing, please wait...";
 
-      fetch(`${GAS_URL}?action=submit`, {
+      fetch(GAS_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roll, date, month })
+        body: JSON.stringify({ action: "submit", roll, date, month })
       })
       .then(res => res.json())
       .then(response => {
